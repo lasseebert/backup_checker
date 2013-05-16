@@ -23,5 +23,5 @@
 job_type :local_runner,  "cd :path && :task :output"
 
 every 1.day, at: '6:00 pm' do
-  local_runner "bin/run.rb LASSEEBERT_AT_GMAIL_PASSWORD=#{ENV['LASSEEBERT_AT_GMAIL_PASSWORD']}"
+  local_runner "bin/run.rb"
 end
