@@ -32,11 +32,11 @@ def run
 
     paths = folder.entries.map{ |path| File.join folder, path }
     newest_child = paths.max_by{ |path| File.mtime(path) }
-    any_errors ||= check_file newest_child
+    any_errors |= check_file(newest_child)
   end
 
   files.each do |file|
-    any_errors ||= check_file file
+    any_errors |= check_file(file)
   end
 
   send_success_mail unless any_errors
