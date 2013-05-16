@@ -8,7 +8,7 @@ MAX_DAYS = 7
 def run
   folders = [
     '/home/pulver/backups/lasseebert-xps/daily',
-    '/home/pulver/backups/gmail',
+    '/home/pulver/backups/gmail/new',
     '/home/remote_backup/backups/barndomsfoto_backup',
     '/home/remote_backup/backups/hvidtfeldt_larsen',
     '/home/remote_backup/backups/madtavlen_backup',
@@ -30,7 +30,8 @@ def run
       next
     end
 
-    newest_child = folder.entries.max_by{ |path| File.mtime(path) }
+    paths = folder.entries.map{ |path| File.join folder, path }
+    newest_child = paths.max_by{ |path| File.mtime(path) }
     any_errors ||= check_file newest_child
   end
 
