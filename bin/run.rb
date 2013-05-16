@@ -8,7 +8,7 @@ MAX_DAYS = 7
 def run
   folders = [
     '/home/pulver/backups/lasseebert-xps/daily',
-    '/home/pulver/backups/gmail/new',
+    '/home/pulver/backups/gmail',
     '/home/remote_backup/backups/barndomsfoto_backup',
     '/home/remote_backup/backups/hvidtfeldt_larsen',
     '/home/remote_backup/backups/madtavlen_backup',
