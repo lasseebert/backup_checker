@@ -3,11 +3,11 @@
 require_relative '../lib/file_system_checker'
 require 'net/smtp'
 
-MAX_DAYS = 7
+MAX_DAYS = 1
 
 def run
   folders = [
-    '/home/pulver/backups/lasseebert-xps/daily',
+    '/home/pulver/backups/lasseebert-xps/hourly',
     '/home/pulver/backups/gmail/new',
     '/home/remote_backup/backups/barndomsfoto_backup',
     '/home/remote_backup/backups/hvidtfeldt_larsen',
