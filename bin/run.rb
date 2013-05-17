@@ -20,26 +20,26 @@ def run
     '/home/pulver/backups/checkvist/checkvist_daily.tar.gz'
   ]
 
-  any_errors = false
+  all_good = true
 
   folders.each do |folder_path|
     unless Dir.exists?(folder_path) && (folder = Dir.new folder_path).entries.any?
       puts "[ NON EXISTING ] #{folder_path} - sending email alert"
       send_email_alert folder_path
-      any_errors = true
+      all_good = false
       next
     end
 
     paths = folder.entries.map{ |path| File.join folder, path }
     newest_child = paths.max_by{ |path| File.mtime(path) }
-    any_errors |= check_file(newest_child)
+    all_good &= check_file(newest_child)
   end
 
   files.each do |file|
-    any_errors |= check_file(file)
+    all_good &= check_file(file)
   end
 
-  send_success_mail unless any_errors
+  send_success_mail if all_good
 
 end
 
