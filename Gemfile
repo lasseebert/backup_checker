@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem 'dotenv'
+
 group :development, :test do
   gem 'rspec'
 
