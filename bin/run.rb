@@ -3,6 +3,8 @@
 require_relative '../config/settings'
 require_relative '../lib/file_system_checker'
 require 'net/smtp'
+require 'dotenv'
+Dotenv.load
 
 def run
   all_good = true
