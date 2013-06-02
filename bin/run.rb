@@ -7,7 +7,7 @@ require 'net/smtp'
 def run
   all_good = true
 
-  SETTINGS.folders.each do |folder_path|
+  SETTINGS[:folders].each do |folder_path|
     unless Dir.exists?(folder_path) && (folder = Dir.new folder_path).entries.any?
       puts "[ NON EXISTING ] #{folder_path} - sending email alert"
       send_email_alert folder_path
@@ -20,7 +20,7 @@ def run
     all_good &= check_file(newest_child)
   end
 
-  SETTINGS.files.each do |file|
+  SETTINGS[:files].each do |file|
     all_good &= check_file(file)
   end
 
@@ -33,7 +33,7 @@ def check_file(path)
     puts "[ NON EXISTING ] #{path} - sending email alert"
     send_email_alert(path)
     false
-  elsif FileSystemChecker.check_file file: path, days: SETTINGS.max_days
+  elsif FileSystemChecker.check_file file: path, days: SETTINGS[:max_days]
     puts "[ OK ] #{path}"
     true
   else
