@@ -55,6 +55,7 @@ end
 
 
 def send_mail(subject, body)
+  subject = "#{subject} - #{ENV["hostname"]}"
   smtp = Net::SMTP.new 'smtp.gmail.com', 587
   smtp.enable_starttls
   smtp.start('gmail.com', 'lasseebert@gmail.com', ENV['LASSEEBERT_AT_GMAIL_PASSWORD'], :login) do
