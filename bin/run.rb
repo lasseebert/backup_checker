@@ -1,28 +1,13 @@
 #!/usr/bin/env ruby
 
+require_relative '../config/settings'
 require_relative '../lib/file_system_checker'
 require 'net/smtp'
 
-MAX_DAYS = 1
-
 def run
-  folders = [
-    '/home/pulver/backups/lasseebert-xps/hourly',
-    '/home/pulver/backups/gmail/new',
-    '/home/remote_backup/backups/barndomsfoto_backup',
-    '/home/remote_backup/backups/hvidtfeldt_larsen',
-    '/home/remote_backup/backups/madtavlen_backup',
-    '/home/remote_backup/backups/skindstad_backup',
-    '/home/remote_backup/backups/skindstadebert_backup'
-  ]
-
-  files = [
-    '/home/pulver/backups/checkvist/checkvist_daily.tar.gz'
-  ]
-
   all_good = true
 
-  folders.each do |folder_path|
+  SETTINGS.folders.each do |folder_path|
     unless Dir.exists?(folder_path) && (folder = Dir.new folder_path).entries.any?
       puts "[ NON EXISTING ] #{folder_path} - sending email alert"
       send_email_alert folder_path
@@ -35,7 +20,7 @@ def run
     all_good &= check_file(newest_child)
   end
 
-  files.each do |file|
+  SETTINGS.files.each do |file|
     all_good &= check_file(file)
   end
 
@@ -48,7 +33,7 @@ def check_file(path)
     puts "[ NON EXISTING ] #{path} - sending email alert"
     send_email_alert(path)
     false
-  elsif FileSystemChecker.check_file file: path, days: MAX_DAYS
+  elsif FileSystemChecker.check_file file: path, days: SETTINGS.max_days
     puts "[ OK ] #{path}"
     true
   else
