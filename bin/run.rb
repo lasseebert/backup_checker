@@ -24,7 +24,7 @@ def run
   end
 
   SETTINGS[:files].each do |file|
-    file, max_days = get_setting folder_path
+    file, max_days = get_setting file
     all_good &= check_file(file, max_days)
   end
 
