@@ -10,6 +10,7 @@ def run
   all_good = true
 
   SETTINGS[:folders].each do |folder_path|
+    folder_path, max_days = get_setting folder_path
     unless Dir.exists?(folder_path) && (folder = Dir.new folder_path).entries.any?
       puts "[ NON EXISTING ] #{folder_path} - sending email alert"
       send_email_alert folder_path
@@ -19,18 +20,27 @@ def run
 
     paths = folder.entries.map{ |path| File.join folder, path }
     newest_child = paths.max_by{ |path| File.mtime(path) }
-    all_good &= check_file(newest_child)
+    all_good &= check_file(newest_child, max_days)
   end
 
   SETTINGS[:files].each do |file|
-    all_good &= check_file(file)
+    file, max_days = get_setting folder_path
+    all_good &= check_file(file, max_days)
   end
 
   send_success_mail if all_good
 
 end
 
-def check_file(path)
+def get_setting setting
+  if setting.is_a? Array
+    [setting[0], setting[1]]
+  else
+    [setting, SETTINGS[:max_days]]
+  end
+end
+
+def check_file(path, max_days)
   if !File.exists? path
     puts "[ NON EXISTING ] #{path} - sending email alert"
     send_email_alert(path)
