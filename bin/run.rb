@@ -45,7 +45,7 @@ def check_file(path, max_days)
     puts "[ NON EXISTING ] #{path} - sending email alert"
     send_email_alert(path)
     false
-  elsif FileSystemChecker.check_file file: path, days: SETTINGS[:max_days]
+  elsif FileSystemChecker.check_file file: path, days: max_days
     puts "[ OK ] #{path}"
     true
   else
